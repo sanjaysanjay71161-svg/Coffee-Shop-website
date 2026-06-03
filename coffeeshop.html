@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Malabar & Co. — Specialty Coffee House</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #F5EFE0;
+    --cream-dark: #EDE4CC;
+    --espresso: #1A0F07;
+    --roast: #3D1C07;
+    --caramel: #A0612A;
+    --gold: #C8924A;
+    --milk: #F9F3E8;
+    --steam: rgba(245,239,224,0.08);
+    --text-main: #1A0F07;
+    --text-muted: #6B4C30;
+    --text-light: #9C7A57;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--espresso);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 4rem;
+    background: linear-gradient(to bottom, rgba(26,15,7,0.95), transparent);
+    backdrop-filter: blur(2px);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-style: italic;
+    letter-spacing: 0.04em; color: var(--gold);
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--cream); text-decoration: none; opacity: 0.8;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+  .nav-cta {
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    border: 1px solid var(--gold); color: var(--gold);
+    padding: 0.5rem 1.4rem; text-decoration: none;
+    transition: background 0.25s, color 0.25s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--espresso); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    position: relative;
+    background: radial-gradient(ellipse at 50% 60%, #3D1C07 0%, #1A0F07 60%);
+    overflow: hidden;
+    padding: 6rem 2rem 4rem;
+  }
+  .hero-rings {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+  .hero-rings::before, .hero-rings::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(200,146,74,0.15);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    animation: pulse-ring 6s ease-in-out infinite;
+  }
+  .hero-rings::before { width: 500px; height: 500px; animation-delay: 0s; }
+  .hero-rings::after  { width: 750px; height: 750px; animation-delay: 2s; }
+  @keyframes pulse-ring {
+    0%, 100% { opacity: 0.15; transform: translate(-50%,-50%) scale(1); }
+    50%       { opacity: 0.35; transform: translate(-50%,-50%) scale(1.03); }
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.2rem, 8vw, 6.5rem);
+    line-height: 1.05; font-weight: 700;
+    color: var(--cream);
+    animation: fadeUp 0.9s 0.1s ease both;
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    max-width: 480px; margin: 1.6rem auto 0;
+    font-size: 1rem; font-weight: 300; line-height: 1.75;
+    color: rgba(245,239,224,0.65);
+    animation: fadeUp 1s 0.2s ease both;
+  }
+  .hero-actions {
+    display: flex; gap: 1.2rem; margin-top: 2.8rem;
+    animation: fadeUp 1s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--gold); color: var(--espresso);
+    padding: 0.85rem 2.4rem; font-size: 0.8rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; font-weight: 500;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-primary:hover { background: var(--caramel); transform: translateY(-2px); }
+  .btn-ghost {
+    border: 1px solid rgba(200,146,74,0.5); color: var(--gold);
+    padding: 0.85rem 2.4rem; font-size: 0.8rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.25s, background 0.25s;
+  }
+  .btn-ghost:hover { border-color: var(--gold); background: rgba(200,146,74,0.08); }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(200,146,74,0.5);
+    animation: fadeUp 1s 0.6s ease both;
+  }
+  .scroll-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scroll-drop 2s ease-in-out infinite;
+  }
+  @keyframes scroll-drop { 0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; } }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+  /* ── SECTION BASE ── */
+  section { padding: 7rem 4rem; }
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.26em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem); font-weight: 600;
+    line-height: 1.2;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .divider {
+    width: 48px; height: 1px; background: var(--gold);
+    margin: 1.4rem 0 2rem;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: #120A03;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+  }
+  .about-visual {
+    position: relative; height: 480px;
+  }
+  .about-img-frame {
+    position: absolute; inset: 0;
+    border: 1px solid rgba(200,146,74,0.25);
+  }
+  .about-bg-block {
+    position: absolute; top: 24px; left: 24px; right: -24px; bottom: -24px;
+    border: 1px solid rgba(200,146,74,0.12);
+  }
+  .about-inner {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem;
+    background: linear-gradient(160deg, #3D1C07 0%, #1A0F07 100%);
+    overflow: hidden;
+  }
+  .about-inner::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 240px; height: 240px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,146,74,0.15) 0%, transparent 70%);
+  }
+  .coffee-art {
+    font-family: 'Playfair Display', serif; font-size: 7rem;
+    line-height: 1; opacity: 0.06; position: absolute; top: 1rem; left: 1.5rem;
+    color: var(--gold); pointer-events: none;
+  }
+  .stat-row { display: flex; gap: 2.5rem; position: relative; z-index: 1; }
+  .stat-item { display: flex; flex-direction: column; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem; font-weight: 700; color: var(--gold);
+  }
+  .stat-label {
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(245,239,224,0.5); margin-top: 0.2rem;
+  }
+  .about-text p {
+    font-size: 0.98rem; font-weight: 300; line-height: 1.9;
+    color: rgba(245,239,224,0.7); margin-bottom: 1rem;
+  }
+
+  /* ── MENU ── */
+  #menu {
+    background: var(--espresso);
+    text-align: center;
+  }
+  #menu .section-title, #menu .section-label { text-align: center; }
+  #menu .divider { margin-left: auto; margin-right: auto; }
+  .menu-intro {
+    max-width: 520px; margin: 0 auto 4rem;
+    font-size: 0.95rem; font-weight: 300; line-height: 1.8;
+    color: rgba(245,239,224,0.55);
+  }
+  .menu-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .menu-card {
+    position: relative; padding: 2.8rem 2.2rem;
+    background: #120A03; overflow: hidden;
+    transition: background 0.35s;
+    cursor: default;
+  }
+  .menu-card:hover { background: #1e0f05; }
+  .menu-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--gold); transform: scaleX(0);
+    transform-origin: left; transition: transform 0.4s ease;
+  }
+  .menu-card:hover::after { transform: scaleX(1); }
+  .menu-icon {
+    font-size: 2.4rem; margin-bottom: 1.2rem;
+    display: block; opacity: 0.85;
+    font-family: serif;
+  }
+  .menu-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-weight: 600; color: var(--cream);
+    margin-bottom: 0.6rem;
+  }
+  .menu-desc {
+    font-size: 0.83rem; font-weight: 300; line-height: 1.75;
+    color: rgba(245,239,224,0.5); margin-bottom: 1.4rem;
+  }
+  .menu-price {
+    font-size: 0.78rem; letter-spacing: 0.14em; color: var(--gold);
+    text-transform: uppercase;
+  }
+  .menu-tag {
+    position: absolute; top: 1.2rem; right: 1.2rem;
+    font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--espresso); background: var(--gold);
+    padding: 0.25rem 0.6rem;
+  }
+
+  /* ── PROCESS ── */
+  #process {
+    background: #0E0703;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+  }
+  .process-steps { margin-top: 3rem; }
+  .step {
+    display: flex; gap: 2rem; padding: 1.8rem 0;
+    border-bottom: 1px solid rgba(200,146,74,0.1);
+    transition: border-color 0.2s;
+  }
+  .step:last-child { border-bottom: none; }
+  .step:hover { border-color: rgba(200,146,74,0.3); }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; color: rgba(200,146,74,0.2);
+    line-height: 1; min-width: 48px; font-weight: 700;
+    transition: color 0.3s;
+  }
+  .step:hover .step-num { color: var(--gold); }
+  .step-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem;
+    color: var(--cream);
+  }
+  .step-body {
+    font-size: 0.85rem; font-weight: 300; line-height: 1.8;
+    color: rgba(245,239,224,0.5);
+  }
+  .process-visual {
+    position: sticky; top: 6rem;
+    height: 520px; display: flex; align-items: center; justify-content: center;
+  }
+  .brew-circle {
+    width: 320px; height: 320px; border-radius: 50%;
+    border: 1px solid rgba(200,146,74,0.2);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative;
+    background: radial-gradient(circle at 50% 40%, #3D1C07, #0E0703);
+  }
+  .brew-circle::before {
+    content: '';
+    position: absolute; inset: 16px; border-radius: 50%;
+    border: 1px dashed rgba(200,146,74,0.15);
+  }
+  .brew-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem; font-style: italic; color: var(--gold); opacity: 0.7;
+    margin-bottom: 0.4rem;
+  }
+  .brew-temp {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.8rem; font-weight: 700; color: var(--gold); line-height: 1;
+  }
+  .brew-unit { font-size: 1.4rem; vertical-align: super; }
+  .brew-sub {
+    font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(200,146,74,0.5); margin-top: 0.4rem;
+  }
+
+  /* ── ORIGINS ── */
+  #origins { background: #120A03; }
+  .origins-header { text-align: center; margin-bottom: 4rem; }
+  .origins-header .divider { margin: 1.4rem auto 2rem; }
+  .origins-header p {
+    max-width: 500px; margin: 0 auto;
+    font-size: 0.93rem; font-weight: 300; line-height: 1.85;
+    color: rgba(245,239,224,0.55);
+  }
+  .origins-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  }
+  .origin-card {
+    padding: 3rem 2.5rem;
+    background: #0E0703; position: relative; overflow: hidden;
+  }
+  .origin-card::before {
+    content: attr(data-origin);
+    position: absolute; top: -1.5rem; right: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem; font-weight: 700; opacity: 0.04;
+    color: var(--gold); line-height: 1;
+  }
+  .origin-flag {
+    font-size: 2.4rem; margin-bottom: 1rem;
+  }
+  .origin-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; color: var(--cream); margin-bottom: 0.3rem;
+  }
+  .origin-region {
+    font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem;
+  }
+  .origin-notes {
+    font-size: 0.82rem; font-weight: 300; line-height: 1.8;
+    color: rgba(245,239,224,0.5);
+  }
+  .origin-altitude {
+    margin-top: 1.5rem; padding-top: 1.5rem;
+    border-top: 1px solid rgba(200,146,74,0.12);
+    display: flex; justify-content: space-between;
+    font-size: 0.72rem; letter-spacing: 0.1em;
+    color: rgba(200,146,74,0.6); text-transform: uppercase;
+  }
+
+  /* ── VISIT ── */
+  #visit {
+    background: var(--espresso);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+  }
+  .visit-info { }
+  .hours-list { margin-top: 2rem; }
+  .hours-row {
+    display: flex; justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(200,146,74,0.1);
+    font-size: 0.88rem;
+  }
+  .hours-row:last-child { border-bottom: none; }
+  .hours-day { color: rgba(245,239,224,0.55); font-weight: 300; }
+  .hours-time { color: var(--cream); font-weight: 400; }
+  .visit-map {
+    height: 400px;
+    background: linear-gradient(135deg, #1e0f05, #3D1C07);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    border: 1px solid rgba(200,146,74,0.2);
+    gap: 1rem; color: rgba(200,146,74,0.5);
+    font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .map-pin { font-size: 2.5rem; opacity: 0.5; }
+  .address-block { margin-top: 2rem; }
+  .address-block p {
+    font-size: 0.9rem; font-weight: 300; line-height: 1.9;
+    color: rgba(245,239,224,0.6);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #080401; padding: 4rem;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+    border-top: 1px solid rgba(200,146,74,0.1);
+  }
+  .footer-brand { }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-style: italic; color: var(--gold);
+    display: block; margin-bottom: 1rem;
+  }
+  .footer-tagline {
+    font-size: 0.83rem; font-weight: 300; line-height: 1.8;
+    color: rgba(245,239,224,0.4); max-width: 240px;
+  }
+  .footer-col h4 {
+    font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.2rem;
+  }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 0.7rem; }
+  .footer-col a {
+    font-size: 0.85rem; font-weight: 300;
+    color: rgba(245,239,224,0.45); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom {
+    background: #080401; padding: 1.5rem 4rem;
+    border-top: 1px solid rgba(200,146,74,0.06);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.75rem; color: rgba(245,239,224,0.25);
+  }
+
+  /* ── GRAIN OVERLAY ── */
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none;
+    opacity: 0.025; z-index: 9999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 128px;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links, .nav-cta { display: none; }
+    section { padding: 5rem 1.8rem; }
+    #about, #process, #visit { grid-template-columns: 1fr; gap: 3rem; }
+    .menu-grid, .origins-grid { grid-template-columns: 1fr; }
+    footer { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .about-visual { height: 300px; }
+    .process-visual { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">Malabar &amp; Co.</span>
+  <ul class="nav-links">
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#process">Craft</a></li>
+    <li><a href="#origins">Origins</a></li>
+    <li><a href="#visit">Visit</a></li>
+  </ul>
+  <a href="#menu" class="nav-cta">Order Now</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-rings"></div>
+  <p class="hero-eyebrow">Est. 2009 &nbsp;·&nbsp; Specialty Coffee House</p>
+  <h1 class="hero-title">Where Every<br>Cup Tells <em>a Story</em></h1>
+  <p class="hero-sub">Single-origin beans. Slow craft. Java Malabar roasted to its soul — served in a space that feels like home.</p>
+  <div class="hero-actions">
+    <a href="#menu" class="btn-primary">Explore the Menu</a>
+    <a href="#about" class="btn-ghost">Our Story</a>
+  </div>
+  <div class="hero-scroll">
+    Scroll <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual">
+    <div class="about-bg-block"></div>
+    <div class="about-img-frame">
+      <div class="about-inner">
+        <div class="coffee-art">☕</div>
+        <div class="stat-row">
+          <div class="stat-item">
+            <span class="stat-num">17</span>
+            <span class="stat-label">Years Roasting</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">8</span>
+            <span class="stat-label">Origins</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">42</span>
+            <span class="stat-label">Signature Blends</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="about-text">
+    <p class="section-label">Our Story</p>
+    <h2 class="section-title">Born from<br><em>Obsession</em></h2>
+    <div class="divider"></div>
+    <p>Malabar &amp; Co. began with a single bag of Java Malabar beans and a conviction that coffee could be more than a morning ritual — it could be a genuine sensory journey.</p>
+    <p>We source directly from farmers in Indonesia, Ethiopia, and Colombia. Each batch is roasted in-house to a profile we've spent years perfecting, then crafted by hand in every cup we serve.</p>
+    <p>From the velvety texture of our signature milk foam to the precise 93°C extraction of our espressos — every element is intentional.</p>
+    <a href="#process" class="btn-ghost" style="display:inline-block; margin-top:1rem;">See Our Craft</a>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <p class="section-label">The Menu</p>
+  <h2 class="section-title">Crafted <em>Classics</em> &amp; Signatures</h2>
+  <div class="divider"></div>
+  <p class="menu-intro">Every drink is prepared fresh, with precision. We don't rush — and neither should you.</p>
+
+  <div class="menu-grid">
+
+    <div class="menu-card">
+      <div class="menu-tag">Signature</div>
+      <span class="menu-icon">🍫</span>
+      <h3 class="menu-name">Chocolate Coffee</h3>
+      <p class="menu-desc">Double espresso meets Valrhona dark chocolate — a bittersweet marriage of depth and richness, crowned with velvet foam.</p>
+      <span class="menu-price">From ₹ 320</span>
+    </div>
+
+    <div class="menu-card">
+      <span class="menu-icon">☕</span>
+      <h3 class="menu-name">Cappuccino</h3>
+      <p class="menu-desc">One-third espresso, one-third steamed milk, one-third pure air. Our baristas hand-texture milk to a microfoam of silk and cloud.</p>
+      <span class="menu-price">From ₹ 260</span>
+    </div>
+
+    <div class="menu-card">
+      <div class="menu-tag">House Fave</div>
+      <span class="menu-icon">⚡</span>
+      <h3 class="menu-name">Espressino</h3>
+      <p class="menu-desc">A Sicilian-style espresso layered over steamed condensed milk — bold, sweet, and dangerously short.</p>
+      <span class="menu-price">From ₹ 220</span>
+    </div>
+
+    <div class="menu-card">
+      <span class="menu-icon">🥛</span>
+      <h3 class="menu-name">Milk Texturing</h3>
+      <p class="menu-desc">Our milk-forward bar menu: cortado, flat white, and latte. Each crafted with whole milk steamed to exactly 65°C — never scorched, always sweet.</p>
+      <span class="menu-price">From ₹ 240</span>
+    </div>
+
+    <div class="menu-card">
+      <div class="menu-tag">Specialty</div>
+      <span class="menu-icon">⚙️</span>
+      <h3 class="menu-name">Coffee Grind Bar</h3>
+      <p class="menu-desc">Choose your bean, your grind size, your brew method. Turkish fine, filter medium, French press coarse — your rules, our craft.</p>
+      <span class="menu-price">From ₹ 290</span>
+    </div>
+
+    <div class="menu-card">
+      <div class="menu-tag">Origin Series</div>
+      <span class="menu-icon">🌋</span>
+      <h3 class="menu-name">Java Malabar</h3>
+      <p class="menu-desc">Wet-hulled Indonesian beans from the slopes of Mount Malabar — earthy, full-bodied, with notes of dark chocolate and cedar smoke.</p>
+      <span class="menu-price">From ₹ 380</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS (Craft) -->
+<section id="process">
+  <div>
+    <p class="section-label">The Craft</p>
+    <h2 class="section-title">Milk, Grind<br>&amp; <em>Fire</em></h2>
+    <div class="divider"></div>
+
+    <div class="process-steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div>
+          <h4 class="step-title">Bean Selection</h4>
+          <p class="step-body">We taste every lot before we buy. Only single-origin beans that pass our rigorous cupping standards make it to your cup.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div>
+          <h4 class="step-title">Precision Roasting</h4>
+          <p class="step-body">Our drum roaster runs at precise profiles for each origin. Java Malabar demands a dark city roast — 220°C for 14 minutes, drum-cooled immediately.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div>
+          <h4 class="step-title">Grind to Order</h4>
+          <p class="step-body">Every shot is ground fresh. Particle size is calibrated to the humidity of the day — a barista decision, not a machine default.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div>
+          <h4 class="step-title">Milk Texturing</h4>
+          <p class="step-body">Full-cream milk is steamed to 63–67°C with precise wand technique, creating a glossy microfoam with zero bubbles — just silk.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">05</span>
+        <div>
+          <h4 class="step-title">Serve with Intent</h4>
+          <p class="step-body">Each drink leaves the bar within 30 seconds of the final pour. Your cup is always the warmest thing in the room.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="process-visual">
+    <div class="brew-circle">
+      <span class="brew-label">Extraction Temperature</span>
+      <span class="brew-temp"><span class="brew-unit">°</span>93<span style="font-size:1.2rem">C</span></span>
+      <span class="brew-sub">Optimal Espresso Range</span>
+    </div>
+  </div>
+</section>
+
+<!-- ORIGINS -->
+<section id="origins">
+  <div class="origins-header">
+    <p class="section-label">Single Origins</p>
+    <h2 class="section-title">Sourced with <em>Purpose</em></h2>
+    <div class="divider"></div>
+    <p>We travel, we cup, we build relationships. These three origins are the backbone of our menu — each one irreplaceable.</p>
+  </div>
+
+  <div class="origins-grid">
+    <div class="origin-card" data-origin="Java">
+      <div class="origin-flag">🇮🇩</div>
+      <h3 class="origin-name">Java Malabar</h3>
+      <p class="origin-region">West Java, Indonesia</p>
+      <p class="origin-notes">Processed by the unique wet-hulling (Giling Basah) method indigenous to Indonesia. This creates the signature syrupy body, earthy mushroom notes, and low acidity that Java Malabar is celebrated for. Pairs beautifully with dark chocolate.</p>
+      <div class="origin-altitude">
+        <span>1,400 – 1,800m altitude</span>
+        <span>Dark City Roast</span>
+      </div>
+    </div>
+
+    <div class="origin-card" data-origin="Yirga">
+      <div class="origin-flag">🇪🇹</div>
+      <h3 class="origin-name">Yirgacheffe Natural</h3>
+      <p class="origin-region">Southern Ethiopia</p>
+      <p class="origin-notes">Sun-dried on raised beds for 21 days, imparting an intensely fruity, wine-like complexity. Blueberry, bergamot, and florals dominate — Ethiopia's gift to the world of specialty coffee.</p>
+      <div class="origin-altitude">
+        <span>1,700 – 2,200m altitude</span>
+        <span>Light Roast</span>
+      </div>
+    </div>
+
+    <div class="origin-card" data-origin="Huila">
+      <div class="origin-flag">🇨🇴</div>
+      <h3 class="origin-name">Huila Washed</h3>
+      <p class="origin-region">Huila Department, Colombia</p>
+      <p class="origin-notes">Washed and fermented for 36 hours before drying on parabolic beds. Clean, bright, with caramel sweetness and notes of red apple and brown sugar. Our espresso base blend.</p>
+      <div class="origin-altitude">
+        <span>1,600 – 2,000m altitude</span>
+        <span>Medium Roast</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section id="visit">
+  <div class="visit-info">
+    <p class="section-label">Find Us</p>
+    <h2 class="section-title">Come in,<br><em>Sit Down</em></h2>
+    <div class="divider"></div>
+
+    <div class="address-block">
+      <p>12, Roasters Lane<br>Nungambakkam, Chennai<br>Tamil Nadu 600 034</p>
+    </div>
+
+    <div class="hours-list">
+      <div class="hours-row">
+        <span class="hours-day">Monday – Friday</span>
+        <span class="hours-time">7:00 AM – 9:00 PM</span>
+      </div>
+      <div class="hours-row">
+        <span class="hours-day">Saturday</span>
+        <span class="hours-time">8:00 AM – 10:00 PM</span>
+      </div>
+      <div class="hours-row">
+        <span class="hours-day">Sunday</span>
+        <span class="hours-time">9:00 AM – 8:00 PM</span>
+      </div>
+    </div>
+
+    <a href="tel:+914400000000" class="btn-ghost" style="display:inline-block; margin-top: 2rem;">+91 44 0000 0000</a>
+  </div>
+
+  <div>
+    <div class="visit-map">
+      <div class="map-pin">📍</div>
+      <span>Nungambakkam, Chennai</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <span class="footer-logo">Malabar &amp; Co.</span>
+    <p class="footer-tagline">A specialty coffee house dedicated to the slow craft of exceptional coffee — one cup, one story at a time.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Menu</h4>
+    <ul>
+      <li><a href="#menu">Chocolate Coffee</a></li>
+      <li><a href="#menu">Cappuccino</a></li>
+      <li><a href="#menu">Espressino</a></li>
+      <li><a href="#menu">Java Malabar</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Discover</h4>
+    <ul>
+      <li><a href="#about">Our Story</a></li>
+      <li><a href="#process">The Craft</a></li>
+      <li><a href="#origins">Origins</a></li>
+      <li><a href="#visit">Visit Us</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Connect</h4>
+    <ul>
+      <li><a href="#">Instagram</a></li>
+      <li><a href="#">Facebook</a></li>
+      <li><a href="#">Newsletter</a></li>
+      <li><a href="#">Wholesale</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <span>© 2026 Malabar &amp; Co. All rights reserved.</span>
+  <span>Roasted with care in Chennai, India</span>
+</div>
+
+</body>
+</html>
